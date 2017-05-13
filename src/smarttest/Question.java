@@ -36,11 +36,23 @@ public class Question implements java.io.Serializable{
         this.options = options;
     }
     
+    @Override
     public String toString(){
+        return question + " " + options + " " + learningOutcomes + " " + correctOption + " " + points;
+    }
+    
+    public String getQuestion(){
         return question;
     }
     
+    public int getPoints(){
+        return points;
+    }
     public ArrayList<String> getOptions(){
         return options;
+    }
+    
+    public ArrayList<LearningOutcome> getOutcomes(){
+        return learningOutcomes;
     }
 }

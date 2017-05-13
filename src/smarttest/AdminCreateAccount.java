@@ -67,46 +67,61 @@ public class AdminCreateAccount {
         cbox.getChildren().add(createButton);
         AdminGrid.add(cbox,1,10);
         
-        createButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                User newUser;              
-                Alert confirmation = new Alert(AlertType.INFORMATION);
-                if("Student".equals(AccountTypeTF.getText()) || "student".equals(AccountTypeTF.getText()) )
-                {
+        createButton.setOnAction((ActionEvent event) -> {
+            User newUser;
+            //creates new user depending on input Account Type
+            Alert confirmation = new Alert(AlertType.INFORMATION);
+            if("Student".equals(AccountTypeTF.getText()) || "student".equals(AccountTypeTF.getText()) )
+            {
                 newUser = new Student(FNameTF.getText(),LNameTF.getText(),UsernameTF.getText(),PasswordTF.getText());
-                confirmation.setContentText("Student account has been created");   
-                }
-                else if ("Teacher".equals(AccountTypeTF.getText()) || "teacher".equals(AccountTypeTF.getText()) )
-                {
-                newUser = new Teacher(FNameTF.getText(),LNameTF.getText(),UsernameTF.getText(),PasswordTF.getText());
-                confirmation.setContentText("Teacher account has been created");    
-                }
-                else if("Admin".equals(AccountTypeTF.getText()) || "admin".equals(AccountTypeTF.getText()) )
-                {
-                newUser = new Admin(FNameTF.getText(),LNameTF.getText(),UsernameTF.getText(),PasswordTF.getText());
-                confirmation.setContentText("Admin account has been created");    
-                }
-                else
-                {
-                    confirmation.setContentText("\""+AccountTypeTF.getText()+"\""+" is not a valid account type"+
-                            "\nAccount types are: Student, Teacher, Admin"+
-                            "\nPlease try again");
-                }
-                Stage tempStage = new Stage();
-                Scene tempScene = AdminHome.setScene();
-                confirmation.setTitle(null);
-                confirmation.setHeaderText(null); 
-                tempStage.setScene(tempScene);
-                tempStage.show();               
-                Stage s = (Stage)createButton.getScene().getWindow();
-                s.close();
-                confirmation.showAndWait();              
+                confirmation.setContentText("Student account has been created");
+                uploadUser(newUser);
+               
             }
+            else if ("Teacher".equals(AccountTypeTF.getText()) || "teacher".equals(AccountTypeTF.getText()) )
+            {
+                newUser = new Teacher(FNameTF.getText(),LNameTF.getText(),UsernameTF.getText(),PasswordTF.getText());
+                confirmation.setContentText("Teacher account has been created");
+                uploadUser(newUser);
+            }
+            
+            else
+            {
+                confirmation.setContentText("\""+AccountTypeTF.getText()+"\""+" is not a valid account type"+
+                        "\nAccount types are: Student, Teacher, Admin"+
+                        "\nPlease try again");
+            }
+            Stage tempStage = new Stage();
+            Scene tempScene = AdminHome.setScene();
+            confirmation.setTitle(null);
+            confirmation.setHeaderText(null);
+            tempStage.setScene(tempScene);
+            tempStage.show();
+            Stage s = (Stage)createButton.getScene().getWindow();
+            s.close();
+            confirmation.showAndWait();
         });
         
         //Scenes
         Scene scene = new Scene(AdminGrid, 400, 300);
         return scene;
-    }
+    }//Set Scene
+    
+    /**
+     *
+     * @param use
+     */
+    public static void uploadUser(User use)
+    {
+        String str = Utils.toStr(use);
+        String url = "http://10.22.13.87/SmartTestDB.php";
+        String datastr = "op=addUser&str="+str+"&password="+use.Password+"&uname="+use.Username;
+        try{
+            String response = Utils.httpsPost(url, datastr);
+            System.out.println(response);
+            }
+        catch(Exception ex){
+            System.out.println("Exception caught: "+ex);
+            }   
+    }//uploadUser
 }

@@ -34,16 +34,12 @@ public class AdminResetAccount {
         AdminGrid.setPadding(new Insets(10,25,10,25)); 
         
         //Label
-        Label AccountLabel = new Label("Account Type:");
         Label UserLabel = new Label("Username:");
-        AdminGrid.add(AccountLabel, 0, 0);
-        AdminGrid.add(UserLabel,0,2);
+        AdminGrid.add(UserLabel,0,0);
         
         //TextFields
-        TextField AccountTypeTF = new TextField();
         TextField UsernameTF = new TextField();
-        AdminGrid.add(AccountTypeTF,1,0);
-        AdminGrid.add(UsernameTF,1,2);
+        AdminGrid.add(UsernameTF,1,0);
         
         //Button
         Button resetButton = new Button("Reset");
@@ -56,9 +52,13 @@ public class AdminResetAccount {
             @Override
             public void handle(ActionEvent event) {             
                 Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-                String account = AccountTypeTF.getText();
                 String user = UsernameTF.getText();
-                confirmation.setContentText(user + "'s "+account+" account has been reset" );
+                //reset user call is here   
+                System.out.println(user);
+                resetPasword(user);
+                System.out.println(user);
+                //
+                confirmation.setContentText(user + "'s account has been reset" );
                 Stage tempStage = new Stage();
                 Scene tempScene = AdminHome.setScene();
                 confirmation.setTitle(null);
@@ -74,5 +74,19 @@ public class AdminResetAccount {
         //Scenes
         Scene scene = new Scene(AdminGrid, 350, 225);
         return scene;
-    }
+    }//Set Scene
+    
+     public static void resetPasword(String user)
+    {      
+        String url = "http://10.22.13.87/SmartTestDB.php";
+        String datastr = "op=resetPassword&uname="+user;
+        try{
+            String response = Utils.httpsPost(url, datastr);
+            System.out.println(response);
+            }
+        catch(Exception ex){
+            System.out.println("Exception caught: "+ex);
+            }   
+    }//uploadUser
+    
 }
