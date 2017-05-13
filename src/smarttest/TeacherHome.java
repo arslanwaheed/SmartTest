@@ -9,18 +9,21 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 public class TeacherHome {
     
-    public static Scene setScene(){
+    public static Scene setScene(Teacher t){
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
+        VBox box = new VBox();
+        ScrollPane pane = new ScrollPane();
         
         //adding name label
         Label nameLabel = new Label("Teacher Name");
@@ -67,19 +70,55 @@ public class TeacherHome {
         historyLabel.setId("historyLabel");
         historyLabel.autosize();
         grid.add(historyLabel, 25, 5,30,1);
+        box.getChildren().add(grid);
         
         //get all tests and display them
+        TestsArray test = t.UndeployedTests;
+        for(int i = 0; i<test.testArray.size(); i++){
+            Label label = new Label("Test #" + (i+1) +":" + test.testArray.get(i).testID);
+            
         
-        TestsArray tests = new TestsArray();
-        //get tests from server
-        
-        for(Test test : tests){           
-            Label testTitle = new Label(""+test.testID);
-            grid.addColumn(1, testTitle);
+            Button viewTest = new Button("View Test#" + (i+1));
+            
+            
+            int currentID = test.testArray.get(i).testID;
+            //setting up action for view button
+            viewTest.setOnAction((ActionEvent event) -> {
+                Scene seeTest = ViewTest.setScene(t, currentID);
+            
+                Stage primaryStage = new Stage();
+                primaryStage.setTitle("Create Test");
+                primaryStage.setScene(seeTest);
+                primaryStage.show();
+            
+            });
+            box.getChildren().add(label);
+            box.getChildren().add(viewTest);
         }
         
+        TestsArray test2 = t.DeployedTests;
+        for(int i = 0; i<test2.testArray.size(); i++){
+            Label label = new Label("Test #" + (i+1) +":" + test2.testArray.get(i).testID);
+          
+            Button viewTest = new Button("View Test#" + (i+1));  
+            
+            int currentID = test.testArray.get(i).testID;
+            //setting up action for view button
+            viewTest.setOnAction((ActionEvent event) -> {
+                Scene seeTest = ViewTest.setScene(t, currentID);
+            
+                Stage primaryStage = new Stage();
+                primaryStage.setTitle("Create Test");
+                primaryStage.setScene(seeTest);
+                primaryStage.show();
+            
+            });
+            box.getChildren().add(label);
+            box.getChildren().add(viewTest);
+        }
         
-        Scene scene = new Scene(grid, 800, 600);
+        pane.setContent(box);
+        Scene scene = new Scene(pane, 800, 600);
         scene.getStylesheets().add(SmartTest.class.getResource("/resources/style.css").toExternalForm());
         
         return scene;
