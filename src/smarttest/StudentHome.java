@@ -10,6 +10,8 @@ package smarttest;
  * @author arslanwaheed
  */
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,7 +35,7 @@ public class StudentHome {
         grid.setVgap(10);
         
         //adding name label
-        Label nameLabel = new Label("Student Name");
+        Label nameLabel = new Label(s.FirstName + " " + s.LastName);
         nameLabel.setId("nameLabel");
         nameLabel.autosize();
         grid.add(nameLabel, 25, 0,30,1);
@@ -44,7 +46,13 @@ public class StudentHome {
         
         //setting up action for logout button
         logoutButton.setOnAction((ActionEvent event) -> {
-            //program what happens when logout clicked
+            Stage tempStage = new Stage();
+            Scene scene = LoginPage.setScene();
+            tempStage.setScene(scene);
+            tempStage.show();
+            
+            Stage st = (Stage)logoutButton.getScene().getWindow();
+            st.close();
         });
         
         //add a separator
@@ -64,7 +72,21 @@ public class StudentHome {
         
         //setting up action for submit button
         submitPincode.setOnAction((ActionEvent event) -> {
-            //program what happens when submit clicked
+            String pin = pincode.getText();
+            String url = "http://10.22.13.87/SmartTestDB.php";
+            String datastr = "op=getFromDeployedTests&pincode="+pin;
+            
+            String response;
+            try {
+                response = Utils.httpsPost(url, datastr);
+                if(response != null){
+                    response = response.substring(0, response.length()-1);
+                    Test tempTest = (Test)Utils.toObj(response);
+                }
+            } catch (Exception ex) {
+                System.out.println("Exception in submit pincode button:"+ ex);
+            }
+
         });
         
         //add a separator

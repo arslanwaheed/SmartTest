@@ -44,8 +44,8 @@ public class CentralServerAdapter {
     
     protected static String getUser(String username, String password){
         String query = "SELECT id FROM admins WHERE uname='"+username+"' AND password='"+password+"'";
-        
-        if (query.equals("1")){
+        String str = Utils.execQuery(query);
+        if (str != null){
             return "admin";
         }
         else {
@@ -75,7 +75,7 @@ public class CentralServerAdapter {
     protected static String resetPassword(String username){
         String qry = "SELECT byteStr FROM users WHERE uname='"+username+"'";
         String objStr = Utils.execQuery(qry);
-        if(objStr != null && objStr != ""){
+        if(objStr != null && !objStr.equals("") || !objStr.equals(" ")){
             //objStr = objStr.substring(0,objStr.length()-1);
             User tempUser = (User)Utils.toObj(objStr);
             String oldPassword = tempUser.Password;

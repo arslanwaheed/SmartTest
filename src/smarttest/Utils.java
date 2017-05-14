@@ -64,8 +64,8 @@ public class Utils {
     public static Object toObj(String str) {
         Object obj = null;
         try {
-            String sDecoded = URLDecoder.decode(str, "UTF-8");
-            byte[] barr = Base64.getDecoder().decode(sDecoded);
+            //String sDecoded = URLDecoder.decode(str, "UTF-8");
+            byte[] barr = Base64.getDecoder().decode(str);
             ByteArrayInputStream bios = new ByteArrayInputStream(barr);
             ObjectInputStream ois = new ObjectInputStream(bios);
             obj = ois.readObject();

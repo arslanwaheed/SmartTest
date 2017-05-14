@@ -109,5 +109,9 @@ public class CreateTest {
             }
             
         });
+        
+        //save the test
+        Button saveTest = new Button("Save Test");
+        box.getChildren().add(saveTest);
     }
 }
