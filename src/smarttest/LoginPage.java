@@ -78,7 +78,7 @@ public class LoginPage {
                 }
                 
             } catch (Exception ex) {
-                System.out.println("Exception caught: "+ ex);
+                System.out.println("Exception caught in login: "+ ex);
             }
             Stage tempStage = new Stage();
             //Scene tempScene = StudentHome.setScene();

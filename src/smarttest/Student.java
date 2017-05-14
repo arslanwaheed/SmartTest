@@ -14,6 +14,7 @@ public class Student extends User{
     TestsArray TakenTests;
     Student(String f, String l, String u, String p){
         super(f,l,u,p);
-        this.AccountType = "Student";    
+        this.AccountType = "Student";  
+        TakenTests = new TestsArray();
     }//constructor  
 }//Student

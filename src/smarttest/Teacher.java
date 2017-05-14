@@ -5,6 +5,8 @@
  */
 package smarttest;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Justin Sanchez
@@ -15,6 +17,8 @@ public class Teacher extends User{
     
     Teacher(String f, String l, String u, String p){
         super(f,l,u,p);
-        this.AccountType = "Teacher";    
+        this.AccountType = "Teacher";   
+        DeployedTests = new TestsArray();
+        UndeployedTests = new TestsArray();
     }//constructor   
 }//Teacher

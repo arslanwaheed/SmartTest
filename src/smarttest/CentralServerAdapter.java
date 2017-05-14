@@ -75,11 +75,11 @@ public class CentralServerAdapter {
     protected static String resetPassword(String username){
         String qry = "SELECT byteStr FROM users WHERE uname='"+username+"'";
         String objStr = Utils.execQuery(qry);
-        if(objStr != null && !objStr.equals("") || !objStr.equals(" ")){
+        if(objStr != null){
             //objStr = objStr.substring(0,objStr.length()-1);
             User tempUser = (User)Utils.toObj(objStr);
-            String oldPassword = tempUser.Password;
             tempUser.Password = "csc190";
+            
             String str = Utils.toStr(tempUser);
             
             String qry1 = "UPDATE users SET password='csc190', byteStr='" + str + "' WHERE uname='"+username+"'";
