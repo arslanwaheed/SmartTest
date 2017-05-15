@@ -83,21 +83,27 @@ public class TeacherHome {
             Label undeployedTestsLabel = new Label("Undeployed Tests");
             undeployedTestsLabel.setId("historyLabel");
             box.getChildren().add(undeployedTestsLabel);
+            
             TestsArray uTests = t.UndeployedTests;
-        
-        //TestsArray uTests = t.UndeployedTests;
-        
             for(Test test : uTests){
                 Label testLabel = new Label("Test with pincode: " + test.testID);
                 Button editTestButton = new Button("Edit Test");
 
                 editTestButton.setOnAction((ActionEvent event) -> {
-                    Scene editTestScene = EditTest.setScene(test.testID);
+                    Scene editTestScene = EditTest.setScene(test,t);
 
                     Stage primaryStage = new Stage();
                     primaryStage.setTitle("Edit Test");
                     primaryStage.setScene(editTestScene);
                     primaryStage.showAndWait();
+                    
+                    Stage tempStage = new Stage();
+                    Scene tempScene = TeacherHome.setScene(t);
+                    tempStage.setScene(tempScene);
+                    tempStage.show();
+                    
+                    Stage s = (Stage)editTestButton.getScene().getWindow();
+                    s.close();
                 });
                 box.getChildren().add(testLabel);
                 box.getChildren().add(editTestButton);
@@ -124,7 +130,15 @@ public class TeacherHome {
                     Stage primaryStage = new Stage();
                     primaryStage.setTitle("View Test");
                     primaryStage.setScene(seeTest);
-                    primaryStage.show();
+                    primaryStage.showAndWait();
+                    
+                    Stage tempStage = new Stage();
+                    Scene tempScene = TeacherHome.setScene(t);
+                    tempStage.setScene(tempScene);
+                    tempStage.show();
+                    
+                    Stage s = (Stage)viewTestButton.getScene().getWindow();
+                    s.close();
 
                 });
                 box.getChildren().add(testLabel);

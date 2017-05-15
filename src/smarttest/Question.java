@@ -55,4 +55,34 @@ public class Question implements java.io.Serializable{
     public ArrayList<LearningOutcome> getOutcomes(){
         return learningOutcomes;
     }
+    
+    public boolean isEqual(Question q){
+        if(!(this.correctOption == q.correctOption)){
+            return false;
+        }
+        if(!this.question.equals(q.question)){
+            return false;
+        }
+        if(this.options.size() != q.options.size()){
+            return false;
+        }
+        for(int i=0; i<this.options.size(); i++){
+            if(!this.options.get(i).equals(q.options.get(i))){
+                return false;
+            }
+        }
+        if(this.learningOutcomes.size() != q.learningOutcomes.size()){
+            return false;
+        }
+        for(int i=0; i<this.learningOutcomes.size(); i++){
+            if(!this.learningOutcomes.get(i).category.equals(q.learningOutcomes.get(i).category)){
+                return false;
+            }
+            if(!this.learningOutcomes.get(i).name.equals(q.learningOutcomes.get(i).name)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }

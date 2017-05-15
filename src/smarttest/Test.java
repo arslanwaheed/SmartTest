@@ -46,6 +46,15 @@ public class Test implements java.io.Serializable{
 
     }
     
+    public void removeQuestion(Question q){
+        for(Question question : questions){
+            if(question.isEqual(q)){
+                questions.remove(question);
+                totalPoints -= question.points;
+            }
+        }
+    }
+    
     public void deployTest(){
         testID = generateID();
         isDeployed = true;
