@@ -19,6 +19,7 @@ public class Test implements java.io.Serializable{
     ArrayList<Question> questions;
     ArrayList<LearningOutcome> learningOutcomes;
     ArrayList<Student> students;
+    int pointsObtained;
     
     
     public Test(){
@@ -28,6 +29,7 @@ public class Test implements java.io.Serializable{
         questions = new ArrayList<>();
         learningOutcomes = new ArrayList<>();
         students = new ArrayList<>();
+        pointsObtained = 0;
     }
     
     //for testing

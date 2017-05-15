@@ -31,10 +31,19 @@ public class CentralServerAdapter {
             case "updateUser" :
                 System.out.println(updateUser(args[1],args[2],args[3]));
                 break;
+            case "updateTest" :
+                System.out.println(updateTest(args[1],args[2]));
+                break;
             case "resetPassword" :
                 System.out.println(resetPassword(args[1]));
                 break;
         }
+    }
+    
+    protected static String updateTest(String testString, String pincode){
+        String qry = "UPDATE deployedTests SET byteStr='"+testString+"' WHERE pincode='"+pincode+"'";
+        Utils.execNonQuery(qry);
+        return "Success!";
     }
     
     protected static void addUser(String username,String password,String userString){

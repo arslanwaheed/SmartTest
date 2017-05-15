@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Question implements java.io.Serializable{
     int correctOption;
+    int selectedOption;
     int points;
     String question;
     ArrayList<String> options;
@@ -22,6 +23,7 @@ public class Question implements java.io.Serializable{
     public Question(){
         learningOutcomes = new ArrayList<>();
         correctOption = 0;
+        selectedOption = 0;
         question = "";
         points = 0;
         options = new ArrayList<>();
