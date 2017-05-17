@@ -56,31 +56,35 @@ public class LoginPage {
             String url = "http://10.22.13.87/SmartTestDB.php";
             String datastr = "op=getUser&uname="+uname+"&password="+password;
             
+            Scene tempScene = (Scene)submitButton.getScene();
+            
             try {
+                System.out.println("here");
                 String response = Utils.httpsPost(url, datastr);
+                response = response.substring(0, response.length()-1);
                 if (response.equalsIgnoreCase("admin")){
-                    AdminHome.setScene();
+                    tempScene = AdminHome.setScene();
                 }
                 else {
-                    response = response.substring(0, response.length()-1);
+                    System.out.println(response);
                     User tempUser = (User)Utils.toObj(response);
                     
                     if (tempUser.AccountType.equalsIgnoreCase("student")){
-                        StudentHome.setScene((Student)tempUser);
+                        tempScene = StudentHome.setScene((Student)tempUser);
                     }
                     else if(tempUser.AccountType.equalsIgnoreCase("teacher")){
-                        
+                        tempScene = TeacherHome.setScene((Teacher)tempUser);
                     }
                 }
                 
             } catch (Exception ex) {
-                System.out.println("Exception caught: "+ ex);
-            }/*
+                System.out.println("Exception caught in login: "+ ex);
+            }
             Stage tempStage = new Stage();
-            Scene tempScene = StudentHome.setScene();
+            //Scene tempScene = StudentHome.setScene();
             tempStage.setScene(tempScene);
             tempStage.show();
-            */
+            
             Stage s = (Stage)submitButton.getScene().getWindow();
             s.close();
         });

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Question implements java.io.Serializable{
     int correctOption;
+    int selectedOption;
     int points;
     String question;
     ArrayList<String> options;
@@ -22,6 +23,7 @@ public class Question implements java.io.Serializable{
     public Question(){
         learningOutcomes = new ArrayList<>();
         correctOption = 0;
+        selectedOption = 0;
         question = "";
         points = 0;
         options = new ArrayList<>();
@@ -54,5 +56,35 @@ public class Question implements java.io.Serializable{
     
     public ArrayList<LearningOutcome> getOutcomes(){
         return learningOutcomes;
+    }
+    
+    public boolean isEqual(Question q){
+        if(!(this.correctOption == q.correctOption)){
+            return false;
+        }
+        if(!this.question.equals(q.question)){
+            return false;
+        }
+        if(this.options.size() != q.options.size()){
+            return false;
+        }
+        for(int i=0; i<this.options.size(); i++){
+            if(!this.options.get(i).equals(q.options.get(i))){
+                return false;
+            }
+        }
+        if(this.learningOutcomes.size() != q.learningOutcomes.size()){
+            return false;
+        }
+        for(int i=0; i<this.learningOutcomes.size(); i++){
+            if(!this.learningOutcomes.get(i).category.equals(q.learningOutcomes.get(i).category)){
+                return false;
+            }
+            if(!this.learningOutcomes.get(i).name.equals(q.learningOutcomes.get(i).name)){
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

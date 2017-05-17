@@ -20,13 +20,13 @@ import javafx.stage.Stage;
 
 
 public class CreateTest {
-    public static Scene setScene(){
+    public static Scene setScene(Teacher t){
         VBox box = new VBox();
         ScrollPane scroll = new ScrollPane();
         
         Test newTest = new Test();
         
-        draw(newTest,box);
+        draw(newTest,box, t);
 
         scroll.setContent(box);
         scroll.setFitToWidth(true);
@@ -37,7 +37,7 @@ public class CreateTest {
     }
     
     
-    public static void draw(Test newTest, VBox box){
+    public static void draw(Test newTest, VBox box, Teacher t){
         if(newTest.questions.size() > 0){
             Label existingQuestionsLabel = new Label("Existing Questions");
             box.getChildren().add(existingQuestionsLabel);
@@ -87,7 +87,7 @@ public class CreateTest {
             
             newTest.addQuestion(question);
             box.getChildren().clear();
-            draw(newTest,box);
+            draw(newTest,box,t);
         });
         
         //upload the test
@@ -103,11 +103,44 @@ public class CreateTest {
             try {
                 String response = Utils.httpsPost(url, datastr);
                 System.out.println("Response: "+response);
-                box.getChildren().clear();
+                response = response.substring(0, response.length()-1);
+                if(response.equalsIgnoreCase("success!")){
+                    t.DeployedTests.add(newTest);
+                    System.out.println("Size: "+t.DeployedTests.size());
+                }
+                str = Utils.toStr(t);
+                datastr = "op=updateUser&uname="+t.Username+"&password="+t.Password+"&str="+str;
+                response = Utils.httpsPost(url, datastr);
+                System.out.println("user update status: "+response);
+                
+                Stage st = (Stage)uploadTest.getScene().getWindow();
+                st.close();
             } catch (Exception ex) {
                 System.out.println("Exception caught: "+ ex);
             }
             
         });
+        
+        //save the test
+        Button saveTest = new Button("Save Test");
+        box.getChildren().add(saveTest);
+        
+        saveTest.setOnAction((ActionEvent event) -> {
+            try {
+                t.UndeployedTests.add(newTest);
+                
+                String url = "http://10.22.13.87/SmartTestDB.php";
+                String str = Utils.toStr(t);
+                String datastr = "op=updateUser&uname="+t.Username+"&password="+t.Password+"&str="+str;
+                String response = Utils.httpsPost(url, datastr);
+                System.out.println("user update status: "+response);
+                
+                Stage st = (Stage)saveTest.getScene().getWindow();
+                st.close();
+            } catch (Exception ex) {
+                System.out.println("Exception caught in saveTestButton: "+ ex);
+            }
+        });
+        
     }
 }

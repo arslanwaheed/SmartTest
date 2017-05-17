@@ -26,18 +26,24 @@ public class TeacherHome {
         ScrollPane pane = new ScrollPane();
         
         //adding name label
-        Label nameLabel = new Label("Teacher Name");
+        Label nameLabel = new Label(t.FirstName+" " + t.LastName);
         nameLabel.setId("nameLabel");
         nameLabel.autosize();
         grid.add(nameLabel, 25, 0,30,1);
         
         //adding logout button
         Button logoutButton = new Button("Logout");
-        grid.add(logoutButton, 65,0);
+        grid.add(logoutButton, 60,0);
         
         //setting up action for logout button
         logoutButton.setOnAction((ActionEvent event) -> {
-            //program what happens when logout clicked
+            Stage tempStage = new Stage();
+            Scene scene = LoginPage.setScene();
+            tempStage.setScene(scene);
+            tempStage.show();
+            
+            Stage st = (Stage)logoutButton.getScene().getWindow();
+            st.close();
         });
         
         //add a separator
@@ -47,18 +53,18 @@ public class TeacherHome {
         Separator separator2 = new Separator();  
         grid.add(separator2,0, 2, 67,1);
         
-        //add submit button
+        //add create test button
         Button newTest = new Button("Create Test");
         grid.addRow(3, newTest);
         
-        //setting up action for submit button
+        //setting up action for create test button
         newTest.setOnAction((ActionEvent event) -> {
-            Scene makeTest = CreateTest.setScene();
+            Scene makeTest = CreateTest.setScene(t);
             
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("Create Test");
-            primaryStage.setScene(makeTest);
-            primaryStage.showAndWait();
+            Stage tempStage = new Stage();
+            tempStage.setTitle("Create Test");
+            tempStage.setScene(makeTest);
+            tempStage.showAndWait();
         });
         
         //add a separator
@@ -73,50 +79,72 @@ public class TeacherHome {
         box.getChildren().add(grid);
         
         //get all tests and display them
-        TestsArray test = t.UndeployedTests;
-        for(int i = 0; i<test.testArray.size(); i++){
-            Label label = new Label("Test #" + (i+1) +":" + test.testArray.get(i).testID);
+        if(t.UndeployedTests != null){
+            Label undeployedTestsLabel = new Label("Undeployed Tests");
+            undeployedTestsLabel.setId("historyLabel");
+            box.getChildren().add(undeployedTestsLabel);
             
-        
-            Button viewTest = new Button("View Test#" + (i+1));
-            
-            
-            int currentID = test.testArray.get(i).testID;
-            //setting up action for view button
-            viewTest.setOnAction((ActionEvent event) -> {
-                Scene seeTest = ViewTest.setScene(t, currentID);
-            
-                Stage primaryStage = new Stage();
-                primaryStage.setTitle("Create Test");
-                primaryStage.setScene(seeTest);
-                primaryStage.show();
-            
-            });
-            box.getChildren().add(label);
-            box.getChildren().add(viewTest);
+            TestsArray uTests = t.UndeployedTests;
+            for(Test test : uTests){
+                Label testLabel = new Label("Test with pincode: " + test.testID);
+                Button editTestButton = new Button("Edit Test");
+
+                editTestButton.setOnAction((ActionEvent event) -> {
+                    Scene editTestScene = EditTest.setScene(test,t);
+
+                    Stage primaryStage = new Stage();
+                    primaryStage.setTitle("Edit Test");
+                    primaryStage.setScene(editTestScene);
+                    primaryStage.showAndWait();
+                    
+                    Stage tempStage = new Stage();
+                    Scene tempScene = TeacherHome.setScene(t);
+                    tempStage.setScene(tempScene);
+                    tempStage.show();
+                    
+                    Stage s = (Stage)editTestButton.getScene().getWindow();
+                    s.close();
+                });
+                box.getChildren().add(testLabel);
+                box.getChildren().add(editTestButton);
+            }
+            //add a separator
+            Separator separator4 = new Separator();  
+            box.getChildren().add(separator4);
+            Separator separator5 = new Separator();  
+            box.getChildren().add(separator5);
         }
-        
-        TestsArray test2 = t.DeployedTests;
-        for(int i = 0; i<test2.testArray.size(); i++){
-            Label label = new Label("Test #" + (i+1) +":" + test2.testArray.get(i).testID);
-          
-            Button viewTest = new Button("View Test#" + (i+1));  
+        if(t.DeployedTests != null){
+            Label deployedTestsLabel = new Label("Deployed Tests");
+            deployedTestsLabel.setId("historyLabel");
+            box.getChildren().add(deployedTestsLabel);
             
-            int currentID = test.testArray.get(i).testID;
-            //setting up action for view button
-            viewTest.setOnAction((ActionEvent event) -> {
-                Scene seeTest = ViewTest.setScene(t, currentID);
-            
-                Stage primaryStage = new Stage();
-                primaryStage.setTitle("Create Test");
-                primaryStage.setScene(seeTest);
-                primaryStage.show();
-            
-            });
-            box.getChildren().add(label);
-            box.getChildren().add(viewTest);
+            TestsArray dTests = t.DeployedTests;
+            for(Test test : dTests){
+                Label testLabel = new Label("Test with pincode: " + test.testID);
+                Button viewTestButton = new Button("View Test");  
+
+                viewTestButton.setOnAction((ActionEvent event) -> {
+                    Scene seeTest = ViewTest.setScene(test.testID);
+
+                    Stage primaryStage = new Stage();
+                    primaryStage.setTitle("View Test");
+                    primaryStage.setScene(seeTest);
+                    primaryStage.showAndWait();
+                    
+                    Stage tempStage = new Stage();
+                    Scene tempScene = TeacherHome.setScene(t);
+                    tempStage.setScene(tempScene);
+                    tempStage.show();
+                    
+                    Stage s = (Stage)viewTestButton.getScene().getWindow();
+                    s.close();
+
+                });
+                box.getChildren().add(testLabel);
+                box.getChildren().add(viewTestButton);
+            }
         }
-        
         pane.setContent(box);
         Scene scene = new Scene(pane, 800, 600);
         scene.getStylesheets().add(SmartTest.class.getResource("/resources/style.css").toExternalForm());

@@ -18,6 +18,8 @@ public class Test implements java.io.Serializable{
     int testID;
     ArrayList<Question> questions;
     ArrayList<LearningOutcome> learningOutcomes;
+    ArrayList<Student> students;
+    int pointsObtained;
     
     
     public Test(){
@@ -26,6 +28,8 @@ public class Test implements java.io.Serializable{
         totalPoints = 0;
         questions = new ArrayList<>();
         learningOutcomes = new ArrayList<>();
+        students = new ArrayList<>();
+        pointsObtained = 0;
     }
     
     //for testing
@@ -42,6 +46,15 @@ public class Test implements java.io.Serializable{
         questions.add(q);
         totalPoints += q.points;
 
+    }
+    
+    public void removeQuestion(Question q){
+        for(Question question : questions){
+            if(question.isEqual(q)){
+                questions.remove(question);
+                totalPoints -= question.points;
+            }
+        }
     }
     
     public void deployTest(){

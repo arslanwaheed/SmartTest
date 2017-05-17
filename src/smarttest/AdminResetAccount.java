@@ -53,8 +53,10 @@ public class AdminResetAccount {
             public void handle(ActionEvent event) {             
                 Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
                 String user = UsernameTF.getText();
-                //reset user call is here              
-                //CentralServerAdapter.
+                //reset user call is here   
+                System.out.println(user);
+                resetPasword(user);
+                System.out.println(user);
                 //
                 confirmation.setContentText(user + "'s account has been reset" );
                 Stage tempStage = new Stage();
@@ -73,5 +75,18 @@ public class AdminResetAccount {
         Scene scene = new Scene(AdminGrid, 350, 225);
         return scene;
     }//Set Scene
+    
+     public static void resetPasword(String user)
+    {      
+        String url = "http://10.22.13.87/SmartTestDB.php";
+        String datastr = "op=resetPassword&uname="+user;
+        try{
+            String response = Utils.httpsPost(url, datastr);
+            System.out.println(response);
+            }
+        catch(Exception ex){
+            System.out.println("Exception caught: "+ex);
+            }   
+    }//uploadUser
     
 }
