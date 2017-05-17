@@ -41,6 +41,8 @@ public class ViewTest {
                 Label testPointsLabel = new Label("Total Points " + test.totalPoints);
                 box.getChildren().add(testPointsLabel);
                 
+                
+                
                 ScrollPane pane = new ScrollPane();
                 for(int i = 0; i<questions.size(); i++){
                     //add a separator
