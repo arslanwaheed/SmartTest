@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 
 public class LearningOutcomesArray extends ArrayList<LearningOutcome> implements java.io.Serializable {
 
-    static ArrayList<LearningOutcome> loArray;
+    ArrayList<LearningOutcome> loArray;
 
     public LearningOutcomesArray() {
         loArray = new ArrayList<>();
@@ -62,7 +62,7 @@ public class LearningOutcomesArray extends ArrayList<LearningOutcome> implements
 
     }
 
-    public static LearningOutcome getLearningOutcome(String name) {
+    public LearningOutcome getLearningOutcome(String name) {
         for (LearningOutcome lo : loArray) {
             if (lo.name.equalsIgnoreCase(name)) {
                 return lo;

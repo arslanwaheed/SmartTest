@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -38,8 +39,6 @@ public class UploadLearningOutcomes {
             LearningOutcomesArray learningOutcomes = new LearningOutcomesArray();
 
             learningOutcomes.ReadLearningOutcomes(filePathText.getText());
-            
-            
 
             String str = Utils.toStr(learningOutcomes);
 
@@ -49,10 +48,13 @@ public class UploadLearningOutcomes {
             String response = "nothing";
             try {
                 response = Utils.httpsPost(url, datastr);
+                Stage st = (Stage) uploadButton.getScene().getWindow();
+                st.close();
             } catch (Exception ex) {
                 Logger.getLogger(UploadLearningOutcomes.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("Upload LO response: " + response);
+
         });
 
         scroll.setContent(box);
