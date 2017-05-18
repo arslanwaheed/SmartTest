@@ -8,6 +8,7 @@ package smarttest;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -44,6 +46,16 @@ public class ViewTest {
                 
                 //this button is for viewing students who took test
                 Button viewStudentsButton = new Button("View Students");
+                box.getChildren().add(viewStudentsButton);
+                
+                viewStudentsButton.setOnAction((ActionEvent event) -> {
+                    Scene displayStudentsScene = DisplayStudents.setScene(test);
+                    
+                    Stage tempStage = new Stage();
+                    tempStage.setTitle("Take Test");
+                    tempStage.setScene(displayStudentsScene);
+                    tempStage.showAndWait();
+                });
 
                 
                 

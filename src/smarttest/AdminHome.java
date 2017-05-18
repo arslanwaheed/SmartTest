@@ -39,7 +39,7 @@ public class AdminHome {
         cbox.getChildren().add(createButton);
         AdminGrid.add(cbox,0,2);
         
-        Button resetButton = new Button("Reset Account");
+        Button resetButton = new Button("Reset Password");
         HBox rbox = new HBox(10);
         rbox.setAlignment(Pos.CENTER);
         rbox.getChildren().add(resetButton);

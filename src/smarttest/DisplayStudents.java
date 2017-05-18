@@ -5,7 +5,8 @@
  */
 package smarttest;
 
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,34 +14,66 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
  * @author spong
  */
-public class DisplayStudents{
-    public static Scene setScene(Test t){
+public class DisplayStudents {
+
+    public static Scene setScene(Test t) {
         VBox box = new VBox();
-        
+
         ScrollPane pane = new ScrollPane();
-        for(int i = 0; i < t.students.size(); i++){
+        for (int i = 0; i < t.students.size(); i++) {
             Separator separator = new Separator();
             box.getChildren().add(separator);
 
             Separator separator1 = new Separator();
             box.getChildren().add(separator1);
-                       
-            Label studentsLabel = new Label(t.students.get(i).LastName);
-            box.getChildren().add(studentsLabel);
-            
-        }
-        Button displayStudent = new Button("View Detailed Results"); 
-        
-        displayStudent.setOnAction((ActionEvent event) ->{
-            
-        });
 
-        
+            String lastName = t.students.get(i).LastName;
+            String firstName = t.students.get(i).FirstName;
+
+            Label studentsLabel = new Label(firstName + " " + lastName);
+            box.getChildren().add(studentsLabel);
+
+            Button displayStudent = new Button("View Detailed Results");
+            box.getChildren().add(displayStudent);
+
+            String uname = t.students.get(i).Username;
+            String password = t.students.get(i).Password;
+
+            displayStudent.setOnAction((ActionEvent event) -> {
+
+                String url = "http://10.22.13.87/SmartTestDB.php";
+                String datastr = "op=getUser&uname=" + uname + "&password=" + password;
+
+                String response = "";
+                try {
+                    response = Utils.httpsPost(url, datastr);
+                } catch (Exception ex) {
+                    Logger.getLogger(DisplayStudents.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                response = response.substring(0, response.length() - 1);
+                Student tempStudent = (Student) Utils.toObj(response);
+
+                for (Test test : tempStudent.TakenTests) {
+                    if (t.testID == test.testID) {
+                        Scene seeTest = ViewTestStudent.setScene(test);
+
+                        Stage primaryStage = new Stage();
+                        primaryStage.setTitle("View Test");
+                        primaryStage.setScene(seeTest);
+                        primaryStage.showAndWait();
+                    }
+                }
+            });
+
+        }
+
         pane.setContent(box);
         pane.setFitToWidth(true);
 

@@ -58,7 +58,7 @@ public class AdminResetAccount {
                 resetPasword(user);
                 System.out.println(user);
                 //
-                confirmation.setContentText(user + "'s account has been reset" );
+                confirmation.setContentText(user + "'s account password has been set to csc190" );
                 Stage tempStage = new Stage();
                 Scene tempScene = AdminHome.setScene();
                 confirmation.setTitle(null);

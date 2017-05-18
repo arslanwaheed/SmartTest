@@ -95,17 +95,9 @@ public class TakeTestArslan {
                             System.out.println("question#" + (i + 1) + " is wrong");
                         }
                     }
-                    test.pointsObtained = totalPointsObtained;
-                    test.students.add(student);
                     
-                    //update test in database
-                    String testString = Utils.toStr(test);
-                    String datastr2 = "op=updateTest&str="+testString+"&pincode="+testID;
-                    try {
-                        System.out.println(Utils.httpsPost(url, datastr2));
-                    } catch (Exception ex) {
-                        System.out.println("Exception in updateing test in TakeTest caught: " + ex);
-                    }
+                    test.pointsObtained = totalPointsObtained;
+                    
                     
                     student.TakenTests.add(test);
                     //update student in database
@@ -116,6 +108,21 @@ public class TakeTestArslan {
                     } catch (Exception ex) {
                         System.out.println("Exception in updateing user in TakeTest caught: " + ex);
                     }
+                    
+                    
+                    test.students.add(student);
+                    System.out.println(test.students.get(0).LastName);
+                    //update test in database
+                    String testString = Utils.toStr(test);
+                    String datastr2 = "op=updateTest&str="+testString+"&pincode="+testID;
+                    try {
+                        System.out.println("print");
+                        System.out.println(Utils.httpsPost(url, datastr2));
+                    } catch (Exception ex) {
+                        System.out.println("Exception in updating test in TakeTest caught: " + ex);
+                    }
+                    
+                    
                     
                     
                     Alert resultDisplayAlert = new Alert(Alert.AlertType.INFORMATION);

@@ -6,8 +6,6 @@
 package smarttest;
 
 import static java.lang.Integer.parseInt;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

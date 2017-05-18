@@ -59,7 +59,6 @@ public class LoginPage {
             Scene tempScene = (Scene)submitButton.getScene();
             
             try {
-                System.out.println("here");
                 String response = Utils.httpsPost(url, datastr);
                 response = response.substring(0, response.length()-1);
                 if (response.equalsIgnoreCase("admin")){
