@@ -29,11 +29,11 @@ public class TeacherHome {
         Label nameLabel = new Label(t.FirstName+" " + t.LastName);
         nameLabel.setId("nameLabel");
         nameLabel.autosize();
-        grid.add(nameLabel, 15, 0,30,1);
+        grid.add(nameLabel,0, 0,30,1);
         
         //adding logout button
         Button logoutButton = new Button("Logout");
-        grid.add(logoutButton, 50,0);
+        grid.add(logoutButton, 30,0);
         
         //setting up action for logout button
         logoutButton.setOnAction((ActionEvent event) -> {
@@ -71,6 +71,20 @@ public class TeacherHome {
             tempStage.showAndWait();
         });
         
+        //add learning outcomes
+        Button viewLOButton = new Button("View Learning Outcomes");
+        grid.addRow(3, viewLOButton);
+        
+        viewLOButton.setOnAction((ActionEvent event) -> {
+            Scene viewLOScene = ViewLearningOutcomes.setScene();
+            
+            Stage tempStage = new Stage();
+            tempStage.setTitle("View Learning Outcomes");
+            tempStage.setScene(viewLOScene);
+            tempStage.show();
+        });
+        
+        
         //setting up action for create test button
         newTest.setOnAction((ActionEvent event) -> {
             Scene makeTest = CreateTest.setScene(t);
@@ -89,7 +103,7 @@ public class TeacherHome {
         Label historyLabel = new Label("Test History");
         historyLabel.setId("historyLabel");
         historyLabel.autosize();
-        grid.add(historyLabel, 15, 6,30,1);
+        grid.add(historyLabel,1, 6,30,1);
         box.getChildren().add(grid);
         
         //get all tests and display them
